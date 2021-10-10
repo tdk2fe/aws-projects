@@ -1,5 +1,12 @@
 provider "aws" {
   region = var.region
+
+  default_tags {
+    tags = {
+        Class = "TestEnv"
+        Owner = "Tim"
+    }
+  }
 }
 
 data "aws_ami" "ubuntu" {
@@ -23,4 +30,29 @@ data "aws_vpc" "default" {
     name = "tag:Environment"
     values = [ "TimsLab-Alpha" ]
   }
+}
+
+resource "aws_instance" "default" {
+  ami = data.aws_ami.ubuntu
+  instance_type = var.instance_type
+
+  tags = {
+      Name = "HelloWorld"
+  }
+}
+
+
+resource "aws_security_group" "tims-sg" {
+  name = "Tims SG"
+  description = "SG for tim to use"
+  vpc_id = data.aws_vpc.default.id
+}
+
+resource "aws_security_group_rule" "outbound" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 65535
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "sg-123456"
 }
