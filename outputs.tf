@@ -9,3 +9,7 @@
 output "vpc_cidr" {
   value = data.aws_vpc.default.cidr_block
 }
+
+output "private_subnets" {
+  value = data.aws_subnets.private.ids
+}

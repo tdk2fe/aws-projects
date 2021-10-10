@@ -32,20 +32,30 @@ data "aws_vpc" "default" {
   }
 }
 
-resource "aws_instance" "default" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = var.instance_type
-
+data "aws_subnets" "private" {
   tags = {
-    Name = "HelloWorld"
+    Network = "Private"
   }
 }
 
+# resource "aws_instance" "default" {
+#   ami           = data.aws_ami.ubuntu.id
+#   instance_type = var.instance_type
+
+#   subnet_id = local.private_subnet_1
+#   tags = {
+#     Name = "HelloWorld"
+#   }
+# }
 
 resource "aws_security_group" "tims-sg" {
   name        = "Tims SG"
   description = "SG for tim to use"
   vpc_id      = data.aws_vpc.default.id
+
+  tags = {
+    name = "Tims SG"
+  }
 }
 
 resource "aws_security_group_rule" "outbound" {
