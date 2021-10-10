@@ -11,5 +11,5 @@ output "vpc_cidr" {
 }
 
 output "private_subnets" {
-  value = data.aws_subnets.private.ids
+  value = local.private_subnets
 }

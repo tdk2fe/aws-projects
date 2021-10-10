@@ -38,15 +38,19 @@ data "aws_subnets" "private" {
   }
 }
 
-# resource "aws_instance" "default" {
-#   ami           = data.aws_ami.ubuntu.id
-#   instance_type = var.instance_type
+resource "aws_instance" "default" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = var.instance_type
 
-#   subnet_id = local.private_subnet_1
-#   tags = {
-#     Name = "HelloWorld"
-#   }
-# }
+  subnet_id = data.aws_subnets.private.ids[0]
+  tags = {
+    Name = "HelloWorld"
+  }
+
+  depends_on = [
+    local.private_subnets
+  ]
+}
 
 resource "aws_security_group" "tims-sg" {
   name        = "Tims SG"
