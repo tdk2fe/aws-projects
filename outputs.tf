@@ -7,5 +7,5 @@
 # }
 
 output "vpc_cidr" {
-    value = data.aws_vpc.default.cidr_block
+  value = data.aws_vpc.default.cidr_block
 }
