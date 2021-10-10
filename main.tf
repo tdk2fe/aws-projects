@@ -47,14 +47,14 @@ data "aws_subnets" "private" {
 #     Name = "HelloWorld"
 #   }
 # }
- 
+
 resource "aws_security_group" "tims-sg" {
   name        = "Tims SG"
   description = "SG for tim to use"
   vpc_id      = data.aws_vpc.default.id
 
   tags = {
-      name = "Tims SG"
+    name = "Tims SG"
   }
 }
 
