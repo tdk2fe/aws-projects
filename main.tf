@@ -42,7 +42,7 @@ resource "aws_instance" "default" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
 
-  subnet_id = local.private_subnets.az1 
+  subnet_id = data.aws_subnets.private.ids[0]
   tags = {
     Name = "HelloWorld"
   }
