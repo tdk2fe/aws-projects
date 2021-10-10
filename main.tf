@@ -36,7 +36,7 @@ data "aws_subnet_ids" "private_subnets" {
   vpc_id = data.aws_vpc.default.id
   filter {
     name   = "tag:Network"
-    values = "Private"
+    values = ["Private"]
   }
 }
 
