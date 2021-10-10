@@ -3,8 +3,8 @@ provider "aws" {
 
   default_tags {
     tags = {
-        Class = "TestEnv"
-        Owner = "Tim"
+      Class = "TestEnv"
+      owner = "Tim"
     }
   }
 }
@@ -27,25 +27,25 @@ data "aws_ami" "ubuntu" {
 
 data "aws_vpc" "default" {
   filter {
-    name = "tag:Environment"
-    values = [ "TimsLab-Alpha" ]
+    name   = "tag:Environment"
+    values = ["TimsLab-Alpha"]
   }
 }
 
 resource "aws_instance" "default" {
-  ami = data.aws_ami.ubuntu.id
+  ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
 
   tags = {
-      Name = "HelloWorld"
+    Name = "HelloWorld"
   }
 }
 
 
 resource "aws_security_group" "tims-sg" {
-  name = "Tims SG"
+  name        = "Tims SG"
   description = "SG for tim to use"
-  vpc_id = data.aws_vpc.default.id
+  vpc_id      = data.aws_vpc.default.id
 }
 
 resource "aws_security_group_rule" "outbound" {
@@ -54,5 +54,5 @@ resource "aws_security_group_rule" "outbound" {
   to_port           = 65535
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = "sg-123456"
+  security_group_id = aws_security_group.tims-sg.id
 }
