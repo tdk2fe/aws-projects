@@ -32,10 +32,18 @@ data "aws_vpc" "default" {
   }
 }
 
+data "aws_subnet_ids" "private_subnets" {
+  filter {
+    name = "tag:Network"
+    values = "Private"
+  }
+}
+
 resource "aws_instance" "default" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
 
+  subnet_id = data.aws_subnet_ids.private_subnets[0].id
   tags = {
     Name = "HelloWorld"
   }
